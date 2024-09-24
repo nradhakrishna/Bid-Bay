@@ -1,0 +1,136 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}BIDBAY{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
+    <style>
+        .dot {
+  height: 15px;
+  width: 15px;
+  background-color: red;
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 10px; /* Adjust as needed for spacing */
+}
+
+@keyframes pulsate {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pulsate {
+  animation: pulsate 1.5s ease-in-out infinite;
+}
+
+        body {
+            
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        h1 a {
+            color: #333; /* Updated color to match the overall theme */
+            text-decoration: none;
+        }
+        .navbar {
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            
+        }
+        .navbar .btn {
+            color: #fff;
+            margin-right: 5px;
+        }
+        .container-fluid {
+            padding: 0;
+        }
+        .alert {
+            margin: 10px;
+        }
+        .container h1 {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+{% for message in messages %}
+<div class="container-fluid p-0">
+    <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message | safe }}
+    </div>
+</div>
+{% endfor %}
+<div class="container mt-3">
+    <h1><a href="{% url 'index' %}">Bidbay</a></h1>
+</div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="btn btn-primary" href="{% url 'index' %}">Active Listings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-primary" href="{% url 'categories' %}">Categories</a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="btn btn-primary" href="{% url 'create' %}">Create Listing</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-primary" href="{% url 'watchlist' %}">My Watchlist</a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="btn btn-primary" href="{% url 'chatbot' %}">Chatbot</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="btn btn-primary" href="{% url 'logout' %}">Log Out</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="btn btn-primary" href="{% url 'login' %}">Log In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-primary" href="{% url 'register' %}">Register</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<hr>
+
+<div class="container">
+    {% block body %}
+    {% endblock %}
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT0tV1pjo2oFpw7xXB5jrwbsJ4i7tDJwJYDX4u1zXIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-XVEF1EOQdq1OG6rqkCfLePDyUe3JX7K0C/pYd55S9O/Gi6mFbI6fnZcna6Fz5XHf" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-b1f7Zz3l+ctkjpnbkpUo8W1+63u45F4iJmQ+ABZf5Y5kH+6HVD0UR3nEQLFElj9T" crossorigin="anonymous"></script>
+</body>
+</html>

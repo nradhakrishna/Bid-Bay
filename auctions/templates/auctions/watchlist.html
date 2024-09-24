@@ -1,0 +1,62 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+<div class="container">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-4">
+        <div class="card text-center">
+          <div class="card-body">
+            <h2 class="mt-1 mb-3">My Watchlist</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    
+
+    {% if watchlist %}
+    <div class="mb-4"><p>Your watchlist has {{ watchingNum }} items.</p></div>
+
+    <table class="table table-hover">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Auction listing ID</th>
+            <th scope="col">Title</th>
+            <th scope="col">Current Price</th>
+            <th scope="col">Starting Bid</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for auction in auctions %}
+        
+          <tr class="{% cycle 'table-secondary' '' %}">
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ auction.id }}</td>
+            <td><a href="{% url 'listing' auction.id %}" class="text-dark">{{ auction.title }}</a></td>
+            <td>${{ auction.current_bid }}</td>
+            <td>${{ auction.starting_bid }}</td>
+            <td>
+                {% if auction.closed %}
+                    <span class="text-danger">Closed</span>
+                {% else %}
+                    <span class="text-success">Active</span>
+                {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+
+      {% else %}
+
+      <p>No items in your watchlist.</p>
+
+      {% endif %}
+      
+</div>
+    
+{% endblock %}
